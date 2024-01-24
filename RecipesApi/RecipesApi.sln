@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipesApi", "RecipesApi.csproj", "{F081C058-C94E-4594-AD99-488998C7AC6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipesApiUnitTests", "..\RecipesApiUnitTests\RecipesApiUnitTests.csproj", "{C2F5B6ED-A817-4062-9F7D-0749D8645F31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F081C058-C94E-4594-AD99-488998C7AC6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F081C058-C94E-4594-AD99-488998C7AC6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F081C058-C94E-4594-AD99-488998C7AC6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F081C058-C94E-4594-AD99-488998C7AC6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CE54CD1-C141-46B6-9C1B-A7AAB160E44D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CE54CD1-C141-46B6-9C1B-A7AAB160E44D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CE54CD1-C141-46B6-9C1B-A7AAB160E44D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CE54CD1-C141-46B6-9C1B-A7AAB160E44D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2F5B6ED-A817-4062-9F7D-0749D8645F31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2F5B6ED-A817-4062-9F7D-0749D8645F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2F5B6ED-A817-4062-9F7D-0749D8645F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2F5B6ED-A817-4062-9F7D-0749D8645F31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A76109D0-D82B-4CF8-A386-E136E091772D}
+	EndGlobalSection
+EndGlobal
