@@ -4,16 +4,6 @@ using RecipesApi.Models;
 
 namespace RecipesApi.Repository
 {
-
-  public interface IRepositoryBase<T>
-  {
-    IQueryable<T> FindAll();
-    IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
-    void Create(T entity);
-    void Update(T entity);
-    void Delete(T entity);
-  }
-
   public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
   {
     protected RecipesContext Context { get; set; }
@@ -28,19 +18,6 @@ namespace RecipesApi.Repository
     public void Create(T entity) => Context.Set<T>().Add(entity);
     public void Update(T entity) => Context.Set<T>().Update(entity);
     public void Delete(T entity) => Context.Set<T>().Remove(entity);
-  }
-
-  public interface IRecipeRepository : IRepositoryBase<Recipe>
-  {
-    Task<IEnumerable<Recipe>> GetAllRecipesAsync();
-    Task<Recipe?> GetRecipeByIdAsync(long ownerId);
-    void CreateRecipe(Recipe owner);
-    void UpdateRecipe(Recipe owner);
-    void DeleteRecipe(Recipe owner);
-  }
-
-  public interface IIngredientRepository : IRepositoryBase<Ingredient>
-  {
   }
 
   public class RecipeRepository : RepositoryBase<Recipe>, IRecipeRepository
@@ -78,13 +55,6 @@ namespace RecipesApi.Repository
     public IngredientRepository(RecipesContext recipesContext) : base(recipesContext)
     {
     }
-  }
-
-  public interface IRepositoryWrapper
-  {
-    IRecipeRepository Recipe { get; }
-    IIngredientRepository Ingredient { get; }
-    Task SaveAsync();
   }
 
   public class RepositoryWrapper : IRepositoryWrapper
