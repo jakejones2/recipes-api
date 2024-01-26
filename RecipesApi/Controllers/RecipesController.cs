@@ -26,7 +26,9 @@ namespace RecipesApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RecipeDTO>>> GetRecipes()
         {
-            return await _repository.Recipe.FindAll().Select(recipe => ItemToDTO(recipe)).ToListAsync();
+            var recipeDTOs = _repository.Recipe.FindAll().Select(recipe => ItemToDTO(recipe));
+            var recipes = await recipeDTOs.ToAsyncEnumerable().ToListAsync();
+            return Ok(recipes);
         }
 
         // GET: api/recipes/5
@@ -40,7 +42,7 @@ namespace RecipesApi.Controllers
                 return NotFound();
             }
 
-            return ItemToDTO(recipe);
+            return Ok(ItemToDTO(recipe));
         }
 
         // PUT: api/recipes/5

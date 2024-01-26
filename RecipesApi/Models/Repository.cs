@@ -29,8 +29,8 @@ namespace RecipesApi.Repository
     public async Task<IEnumerable<Recipe>> GetAllRecipesAsync()
     {
       return await FindAll()
-         .OrderBy(recipe => recipe.Name)
-         .ToListAsync();
+        .OrderBy(recipe => recipe.Name)
+        .ToListAsync();
     }
     public async Task<Recipe?> GetRecipeByIdAsync(long recipeId)
     {
