@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using RecipesApi.Controllers;
 using RecipesApi.Models;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace RecipesControllerTests;
 

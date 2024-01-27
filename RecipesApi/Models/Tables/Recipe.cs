@@ -12,7 +12,8 @@ public class RecipeBase
 public class Recipe : RecipeBase
 {
   public long Id { get; set; }
-
+  public Chef? Chef { get; set; }
+  public long ChefId { get; set; }
 }
 
 // Data Transfer Object avoids exposing the whole model
@@ -22,4 +23,6 @@ public class RecipeDTO
   public long Id { get; set; }
   public string? Name { get; set; }
   public bool IsFavourite { get; set; }
+
+  public long ChefId { get; set; }
 }

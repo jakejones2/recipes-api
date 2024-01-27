@@ -81,8 +81,38 @@ namespace RecipesApi.Repository
     {
       Delete(ingredient);
     }
+  }
 
+  public class ChefRepository : RepositoryBase<Chef>, IChefRepository
+  {
+    public ChefRepository(RecipesContext recipesContext) : base(recipesContext)
+    {
+    }
 
+    public async Task<IEnumerable<Chef>> GetAllChefsAsync()
+    {
+      return await FindAll()
+        .OrderBy(chef => chef.Name)
+        .ToListAsync();
+    }
+
+    public async Task<Chef?> GetChefByIdAsync(long id)
+    {
+      return await FindByCondition(chef => chef.Id.Equals(id))
+          .FirstOrDefaultAsync();
+    }
+    public void CreateChef(Chef chef)
+    {
+      Create(chef);
+    }
+    public void UpdateChef(Chef chef)
+    {
+      Update(chef);
+    }
+    public void DeleteChef(Chef chef)
+    {
+      Delete(chef);
+    }
   }
 
   public class RepositoryWrapper : IRepositoryWrapper
@@ -90,6 +120,7 @@ namespace RecipesApi.Repository
     private RecipesContext _repoContext;
     private IRecipeRepository? _recipe;
     private IIngredientRepository? _ingredient;
+    private IChefRepository? _chef;
 
     public RepositoryWrapper(RecipesContext repositoryContext)
     {
@@ -100,11 +131,8 @@ namespace RecipesApi.Repository
     {
       get
       {
-        if (_recipe == null)
-        {
-          _recipe = new RecipeRepository(_repoContext);
-        }
-
+        // null-coalescing assignment only applies if left side is null
+        _recipe ??= new RecipeRepository(_repoContext);
         return _recipe;
       }
     }
@@ -113,11 +141,17 @@ namespace RecipesApi.Repository
     {
       get
       {
-        if (_ingredient == null)
-        {
-          _ingredient = new IngredientRepository(_repoContext);
-        }
+        _ingredient ??= new IngredientRepository(_repoContext);
         return _ingredient;
+      }
+    }
+
+    public IChefRepository Chef
+    {
+      get
+      {
+        _chef ??= new ChefRepository(_repoContext);
+        return _chef;
       }
     }
 

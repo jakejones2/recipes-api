@@ -17,24 +17,34 @@ namespace RecipesApi.Repository
   {
     Task<IEnumerable<Recipe>> GetAllRecipesAsync();
     Task<Recipe?> GetRecipeByIdAsync(long id);
-    void CreateRecipe(Recipe id);
-    void UpdateRecipe(Recipe id);
-    void DeleteRecipe(Recipe id);
+    void CreateRecipe(Recipe recipe);
+    void UpdateRecipe(Recipe recipe);
+    void DeleteRecipe(Recipe recipe);
   }
 
   public interface IIngredientRepository : IRepositoryBase<Ingredient>
   {
     Task<IEnumerable<Ingredient>> GetAllIngredientsAsync();
     Task<Ingredient?> GetIngredientByIdAsync(long id);
-    void CreateIngredient(Ingredient id);
-    void UpdateIngredient(Ingredient id);
-    void DeleteIngredient(Ingredient id);
+    void CreateIngredient(Ingredient ingredient);
+    void UpdateIngredient(Ingredient ingredient);
+    void DeleteIngredient(Ingredient ingredient);
+  }
+
+  public interface IChefRepository : IRepositoryBase<Chef>
+  {
+    Task<IEnumerable<Chef>> GetAllChefsAsync();
+    Task<Chef?> GetChefByIdAsync(long id);
+    void CreateChef(Chef chef);
+    void UpdateChef(Chef chef);
+    void DeleteChef(Chef chef);
   }
 
   public interface IRepositoryWrapper
   {
     IRecipeRepository Recipe { get; }
     IIngredientRepository Ingredient { get; }
+    IChefRepository Chef { get; }
     Task SaveAsync();
   }
 }
