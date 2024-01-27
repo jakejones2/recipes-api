@@ -45,6 +45,80 @@ public class RecipesController : ControllerBase
         return Ok(ItemToDTO(recipe));
     }
 
+    // GET: api/recipes/{recipeId}/ingredients
+    [HttpGet]
+    [Route("{id}/ingredients")]
+    public async Task<ActionResult<RecipeIngredient[]>> GetRecipeIngredients(long id)
+    {
+        var recipe = await _repository.Recipe
+            .FindByCondition(recipe => recipe.Id == id)
+            .Include(recipe => recipe.RecipeIngredients)
+            .FirstOrDefaultAsync();
+        if (recipe == null) return NotFound();
+
+        var recipeIngredients = new List<RecipeIngredient>();
+        foreach (RecipeIngredients entry in recipe.RecipeIngredients)
+        {
+            var ingredient = await _repository.Ingredient
+                .FindByCondition(i => i.Id == entry.IngredientId)
+                .FirstOrDefaultAsync();
+
+            var recipeIngredient = new RecipeIngredient()
+            {
+                IngredientId = entry.IngredientId,
+                IngredientName = ingredient?.Name == null ? "unknown" : ingredient.Name,
+                Stock = ingredient?.Stock == null ? null : ingredient.Stock,
+                QuantityNeeded = entry.Quantity,
+            };
+            recipeIngredients.Add(recipeIngredient);
+        }
+        return Ok(recipeIngredients);
+    }
+
+    // PATCH: api/recipes/5/ingredients
+    [HttpPatch]
+    [Route("{id}/ingredients")]
+    public async Task<ActionResult<RecipeIngredient[]>> PatchRecipeIngredients(long id, PatchRecipeIngredient[] newIngredients)
+    {
+        var recipe = await _repository.Recipe
+            .FindByCondition(recipe => recipe.Id == id)
+            .Include(recipe => recipe.RecipeIngredients)
+            .AsTracking()
+            .FirstOrDefaultAsync();
+
+        if (recipe == null) return NotFound();
+
+        foreach (PatchRecipeIngredient newIngredient in newIngredients)
+        {
+            var newRecipeIngredientsEntry = new RecipeIngredients()
+            {
+                IngredientId = newIngredient.IngredientId,
+                RecipeId = id,
+                Quantity = newIngredient.QuantityNeeded,
+            };
+            recipe.RecipeIngredients.Add(newRecipeIngredientsEntry);
+        }
+
+        await _repository.SaveAsync();
+
+        var recipeIngredients = new List<RecipeIngredient>();
+        foreach (RecipeIngredients entry in recipe.RecipeIngredients)
+        {
+            var ingredient = await _repository.Ingredient
+                .FindByCondition(i => i.Id == entry.IngredientId)
+                .FirstOrDefaultAsync();
+            var recipeIngredient = new RecipeIngredient()
+            {
+                IngredientId = entry.IngredientId,
+                IngredientName = ingredient?.Name == null ? "unknown" : ingredient.Name,
+                Stock = ingredient?.Stock == null ? null : ingredient.Stock,
+                QuantityNeeded = entry.Quantity,
+            };
+            recipeIngredients.Add(recipeIngredient);
+        }
+        return Ok(recipeIngredients);
+    }
+
     // PUT: api/recipes/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
@@ -81,6 +155,53 @@ public class RecipesController : ControllerBase
         }
 
         return NoContent();
+    }
+
+    // PUT: api/recipes/5/ingredients
+    [HttpPut]
+    [Route("{id}/ingredients")]
+    public async Task<ActionResult<RecipeIngredient[]>> PutRecipeIngredients(long id, PatchRecipeIngredient[] newIngredients)
+    {
+        var recipe = await _repository.Recipe
+            .FindByCondition(recipe => recipe.Id == id)
+            .Include(recipe => recipe.RecipeIngredients)
+            .Include(recipe => recipe.Ingredients)
+            .AsTracking()
+            .FirstOrDefaultAsync();
+
+        if (recipe == null) return NotFound();
+
+        recipe.RecipeIngredients.Clear();
+        recipe.Ingredients.Clear();
+
+        var recipeIngredients = new List<RecipeIngredient>();
+
+        foreach (PatchRecipeIngredient newIngredient in newIngredients)
+        {
+            var ingredient = await _repository.Ingredient
+                .FindByCondition(i => i.Id == newIngredient.IngredientId)
+                .FirstOrDefaultAsync();
+
+            var newRecipeIngredientsEntry = new RecipeIngredients()
+            {
+                IngredientId = newIngredient.IngredientId,
+                Quantity = newIngredient.QuantityNeeded,
+                RecipeId = id,
+            };
+            var recipeIngredient = new RecipeIngredient()
+            {
+                IngredientId = newIngredient.IngredientId,
+                QuantityNeeded = newIngredient.QuantityNeeded,
+                IngredientName = ingredient?.Name,
+                Stock = ingredient?.Stock,
+            };
+            recipe.RecipeIngredients.Add(newRecipeIngredientsEntry);
+            recipeIngredients.Add(recipeIngredient);
+        }
+
+        await _repository.SaveAsync();
+
+        return Ok(recipeIngredients);
     }
 
     // DELETE: api/recipes/5

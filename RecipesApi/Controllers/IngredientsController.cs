@@ -24,9 +24,16 @@ namespace RecipesApi.Controllers
 
     // GET: api/ingredients
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredients()
+    public async Task<ActionResult<IEnumerable<IngredientDTO>>> GetIngredients()
     {
-      return Ok(await _repository.Ingredient.GetAllIngredientsAsync());
+      var ingredients = await _repository.Ingredient.FindAll().ToArrayAsync();
+      var ingredientDTOs = new List<IngredientDTO>();
+
+      foreach (Ingredient ingredient in ingredients)
+      {
+        ingredientDTOs.Add(IngredientToDTO(ingredient));
+      }
+      return Ok(ingredientDTOs);
     }
 
     // GET: api/ingredients/5
@@ -127,6 +134,17 @@ namespace RecipesApi.Controllers
     private bool IngredientExists(long id)
     {
       return _repository.Ingredient.FindAll().Any(e => e.Id == id);
+    }
+
+    public static IngredientDTO IngredientToDTO(Ingredient ingredient)
+    {
+      var ingredientDTO = new IngredientDTO()
+      {
+        Name = ingredient.Name,
+        Stock = ingredient.Stock,
+        Id = ingredient.Id,
+      };
+      return ingredientDTO;
     }
   };
 }
