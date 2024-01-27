@@ -71,7 +71,6 @@ namespace RecipesApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                Console.WriteLine("in error");
                 var recipeExists = await RecipeExists(id);
                 if (!recipeExists)
                 {

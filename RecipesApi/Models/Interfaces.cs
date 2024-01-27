@@ -16,14 +16,19 @@ namespace RecipesApi.Repository
   public interface IRecipeRepository : IRepositoryBase<Recipe>
   {
     Task<IEnumerable<Recipe>> GetAllRecipesAsync();
-    Task<Recipe?> GetRecipeByIdAsync(long ownerId);
-    void CreateRecipe(Recipe owner);
-    void UpdateRecipe(Recipe owner);
-    void DeleteRecipe(Recipe owner);
+    Task<Recipe?> GetRecipeByIdAsync(long id);
+    void CreateRecipe(Recipe id);
+    void UpdateRecipe(Recipe id);
+    void DeleteRecipe(Recipe id);
   }
 
   public interface IIngredientRepository : IRepositoryBase<Ingredient>
   {
+    Task<IEnumerable<Ingredient>> GetAllIngredientsAsync();
+    Task<Ingredient?> GetIngredientByIdAsync(long id);
+    void CreateIngredient(Ingredient id);
+    void UpdateIngredient(Ingredient id);
+    void DeleteIngredient(Ingredient id);
   }
 
   public interface IRepositoryWrapper

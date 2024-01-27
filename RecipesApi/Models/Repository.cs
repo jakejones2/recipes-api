@@ -7,6 +7,7 @@ namespace RecipesApi.Repository
   public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
   {
     protected RecipesContext Context { get; set; }
+
     public RepositoryBase(RecipesContext recipesContext)
     {
       Context = recipesContext;
@@ -32,9 +33,9 @@ namespace RecipesApi.Repository
         .OrderBy(recipe => recipe.Name)
         .ToListAsync();
     }
-    public async Task<Recipe?> GetRecipeByIdAsync(long recipeId)
+    public async Task<Recipe?> GetRecipeByIdAsync(long id)
     {
-      return await FindByCondition(recipe => recipe.Id.Equals(recipeId))
+      return await FindByCondition(recipe => recipe.Id.Equals(id))
           .FirstOrDefaultAsync();
     }
     public void CreateRecipe(Recipe recipe)
@@ -50,11 +51,38 @@ namespace RecipesApi.Repository
       Delete(recipe);
     }
   }
+
   public class IngredientRepository : RepositoryBase<Ingredient>, IIngredientRepository
   {
     public IngredientRepository(RecipesContext recipesContext) : base(recipesContext)
     {
     }
+
+    public async Task<IEnumerable<Ingredient>> GetAllIngredientsAsync()
+    {
+      return await FindAll()
+        .OrderBy(ingredient => ingredient.Stock)
+        .ToListAsync();
+    }
+    public async Task<Ingredient?> GetIngredientByIdAsync(long id)
+    {
+      return await FindByCondition(ingredient => ingredient.Id.Equals(id))
+          .FirstOrDefaultAsync();
+    }
+    public void CreateIngredient(Ingredient ingredient)
+    {
+      Create(ingredient);
+    }
+    public void UpdateIngredient(Ingredient ingredient)
+    {
+      Update(ingredient);
+    }
+    public void DeleteIngredient(Ingredient ingredient)
+    {
+      Delete(ingredient);
+    }
+
+
   }
 
   public class RepositoryWrapper : IRepositoryWrapper
@@ -62,6 +90,11 @@ namespace RecipesApi.Repository
     private RecipesContext _repoContext;
     private IRecipeRepository? _recipe;
     private IIngredientRepository? _ingredient;
+
+    public RepositoryWrapper(RecipesContext repositoryContext)
+    {
+      _repoContext = repositoryContext;
+    }
 
     public IRecipeRepository Recipe
     {
@@ -86,11 +119,6 @@ namespace RecipesApi.Repository
         }
         return _ingredient;
       }
-    }
-
-    public RepositoryWrapper(RecipesContext repositoryContext)
-    {
-      _repoContext = repositoryContext;
     }
 
     public async Task SaveAsync()

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipesApi.Models;
+using RecipesApi.Repository;
 
 namespace RecipesApi.Controllers
 {
@@ -14,25 +15,25 @@ namespace RecipesApi.Controllers
   [ApiController]
   public class IngredientsController : ControllerBase
   {
-    private readonly RecipesContext _context;
+    private readonly IRepositoryWrapper _repository;
 
-    public IngredientsController(RecipesContext context)
+    public IngredientsController(IRepositoryWrapper repository)
     {
-      _context = context;
+      _repository = repository;
     }
 
     // GET: api/ingredients
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredients()
     {
-      return await _context.Ingredients.ToListAsync();
+      return Ok(await _repository.Ingredient.GetAllIngredientsAsync());
     }
 
     // GET: api/ingredients/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Ingredient>> GetIngredient(long id)
     {
-      var ingredient = await _context.Ingredients.FindAsync(id);
+      var ingredient = await _repository.Ingredient.GetIngredientByIdAsync(id);
 
       if (ingredient == null)
       {
@@ -51,7 +52,7 @@ namespace RecipesApi.Controllers
         return BadRequest();
       }
 
-      var ingredient = await _context.Ingredients.FindAsync(id);
+      var ingredient = await _repository.Ingredient.GetIngredientByIdAsync(id);
       if (ingredient == null)
       {
         return NotFound();
@@ -59,10 +60,11 @@ namespace RecipesApi.Controllers
 
       ingredient.Name = newIngredient.Name;
       ingredient.Stock = newIngredient.Stock;
+      _repository.Ingredient.Update(ingredient);
 
       try
       {
-        await _context.SaveChangesAsync();
+        await _repository.SaveAsync();
       }
       catch (DbUpdateConcurrencyException) when (!IngredientExists(id))
       {
@@ -82,8 +84,8 @@ namespace RecipesApi.Controllers
         Name = newIngredient.Name,
       };
 
-      _context.Ingredients.Add(ingredient);
-      await _context.SaveChangesAsync();
+      _repository.Ingredient.Create(ingredient);
+      await _repository.SaveAsync();
 
       return CreatedAtAction(nameof(GetIngredient), new { id = ingredient.Id }, ingredient);
     }
@@ -92,14 +94,14 @@ namespace RecipesApi.Controllers
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteIngredient(long id)
     {
-      var ingredient = await _context.Ingredients.FindAsync(id);
+      var ingredient = await _repository.Ingredient.GetIngredientByIdAsync(id);
       if (ingredient == null)
       {
         return NotFound();
       }
 
-      _context.Ingredients.Remove(ingredient);
-      await _context.SaveChangesAsync();
+      _repository.Ingredient.Delete(ingredient);
+      await _repository.SaveAsync();
 
       return NoContent();
     }
@@ -108,7 +110,7 @@ namespace RecipesApi.Controllers
     [HttpPatch("{id}")]
     public async Task<ActionResult<Ingredient>> PatchIngredient(long id, Increment increment)
     {
-      var ingredient = _context.Ingredients.Find(id);
+      var ingredient = await _repository.Ingredient.GetIngredientByIdAsync(id);
 
       if (ingredient == null)
       {
@@ -116,14 +118,15 @@ namespace RecipesApi.Controllers
       }
 
       ingredient.Stock = ingredient.Stock + increment.Change;
-      await _context.SaveChangesAsync();
+      _repository.Ingredient.Update(ingredient);
+      await _repository.SaveAsync();
 
       return ingredient;
     }
 
     private bool IngredientExists(long id)
     {
-      return _context.Ingredients.Any(e => e.Id == id);
+      return _repository.Ingredient.FindAll().Any(e => e.Id == id);
     }
   };
 }
