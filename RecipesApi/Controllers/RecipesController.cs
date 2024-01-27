@@ -83,12 +83,13 @@ namespace RecipesApi.Controllers
 
         // POST: api/recipes
         [HttpPost]
-        public async Task<ActionResult<RecipeDTO>> PostRecipe(RecipeDTO recipeDTO)
+        public async Task<ActionResult<RecipeDTO>> PostRecipe(RecipeBase recipeBase)
         {
             var recipe = new Recipe
             {
-                IsFavourite = recipeDTO.IsFavourite,
-                Name = recipeDTO.Name
+                Name = recipeBase.Name,
+                IsFavourite = recipeBase.IsFavourite,
+                Secret = recipeBase.Secret,
             };
 
             _repository.Recipe.Create(recipe);

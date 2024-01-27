@@ -76,7 +76,7 @@ namespace RecipesApi.Controllers
 
     // POST: api/ingredients
     [HttpPost]
-    public async Task<ActionResult<Ingredient>> PostIngredient(Ingredient newIngredient)
+    public async Task<ActionResult<Ingredient>> PostIngredient(IngredientBase newIngredient)
     {
       var ingredient = new Ingredient
       {

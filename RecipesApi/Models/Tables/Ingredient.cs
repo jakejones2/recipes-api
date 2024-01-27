@@ -1,10 +1,14 @@
 namespace RecipesApi.Models;
 
-public class Ingredient
+public class IngredientBase
 {
-  public long Id { get; set; }
   public string? Name { get; set; }
   public int Stock { get; set; }
+}
+
+public class Ingredient : IngredientBase
+{
+  public long Id { get; set; }
 }
 
 public class Increment
