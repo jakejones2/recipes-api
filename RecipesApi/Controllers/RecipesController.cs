@@ -86,6 +86,8 @@ public class RecipesController : ControllerBase
             .AsTracking()
             .FirstOrDefaultAsync();
 
+        // return NotFound if ingredient does not exist?
+
         if (recipe == null) return NotFound();
 
         foreach (PatchRecipeIngredient newIngredient in newIngredients)

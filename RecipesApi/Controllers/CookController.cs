@@ -37,7 +37,7 @@ public class CookController : ControllerBase
 
       foreach (RecipeIngredients recipeIngredient in recipe.RecipeIngredients)
       {
-        var ingredient = ingredients.FirstOrDefault(i => i.Id == recipeIngredient.Id);
+        var ingredient = ingredients.FirstOrDefault(i => i.Id == recipeIngredient.IngredientId);
         if (ingredient == null || recipeIngredient.Quantity > ingredient.Stock)
         {
           validRecipe = false;
@@ -67,5 +67,40 @@ public class CookController : ControllerBase
     }
 
     return Ok(recipesAvailable);
+  }
+
+  // POST /api/cook/5
+  [HttpPost]
+  [Route("{id}")]
+  public async Task<ActionResult<IEnumerable<IngredientDTO>>> PostCookingARecipe(long id)
+  {
+    var recipe = await _repository.Recipe
+      .FindByCondition(r => r.Id == id)
+      .Include(r => r.RecipeIngredients)
+      .FirstOrDefaultAsync();
+
+    if (recipe == null) return NotFound();
+
+    var ingredients = await _repository.Ingredient.FindAll().AsTracking().ToArrayAsync();
+    var ingredientDTOs = new List<IngredientDTO>();
+
+    foreach (RecipeIngredients recipeIngredient in recipe.RecipeIngredients)
+    {
+      var ingredient = ingredients.FirstOrDefault(i => i.Id == recipeIngredient.IngredientId);
+      if (ingredient == null) continue;
+      if (ingredient.Stock < recipeIngredient.Quantity)
+      {
+        return BadRequest($"You have't got enough {ingredient.Name}s for this the {recipe.Name} recipe, and you wasted ingredients in the process of trying!");
+      }
+      else
+      {
+        ingredient.Stock -= recipeIngredient.Quantity;
+      }
+      ingredientDTOs.Add(IngredientsController.IngredientToDTO(ingredient));
+    }
+
+    await _repository.SaveAsync();
+
+    return Ok(ingredientDTOs);
   }
 }
