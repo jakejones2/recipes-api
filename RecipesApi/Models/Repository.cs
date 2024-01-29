@@ -115,16 +115,16 @@ namespace RecipesApi.Repository
     }
   }
 
-  public class RepositoryWrapper : IRepositoryWrapper
+  public class RepositoryWrapper : IRepositoryWrapper, IAsyncDisposable
   {
     private RecipesContext _repoContext;
     private IRecipeRepository? _recipe;
     private IIngredientRepository? _ingredient;
     private IChefRepository? _chef;
 
-    public RepositoryWrapper(RecipesContext repositoryContext)
+    public RepositoryWrapper(IDbContextFactory<RecipesContext> contextFactory)
     {
-      _repoContext = repositoryContext;
+      _repoContext = contextFactory.CreateDbContext();
     }
 
     public IRecipeRepository Recipe
@@ -158,6 +158,11 @@ namespace RecipesApi.Repository
     public async Task SaveAsync()
     {
       await _repoContext.SaveChangesAsync();
+    }
+
+    public ValueTask DisposeAsync()
+    {
+      return _repoContext.DisposeAsync();
     }
   }
 }
