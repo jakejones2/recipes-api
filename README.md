@@ -1,16 +1,15 @@
 Just figuring out basic APIs with ASP.NET Core!
+Mostly proof of concept - endpoints lack proper testing and error handling.
 
 ## To do
 
-- Add integration tests
-- Create endpoint that returns recipes that can be cooked with current stock
-- Create seed function
+- Try basic integration tests
+- Fully unit tests REST controllers
+- Unit test graphQL endpoint?
+- Fully build graphQL endpoint
 - Deploy on Azure
-- Create GraphQL api
-- Create more unit tests
-- Rename RecipesController plural, rename RecipeIngredients vs RecipeIngredient
-- General refactoring
-- Move some db logic into repository classes?
+- Refactor names, e.g. RecipeIngredients vs RecipeIngredient
+- Move some controller fetching logic into repository classes?
 
 ## Notes
 
