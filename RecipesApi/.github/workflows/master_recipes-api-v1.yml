@@ -29,22 +29,14 @@ jobs:
       - name: Build with dotnet
         run: dotnet build RecipesApi --configuration Release
 
-      # run the tests here
-
       - name: dotnet publish
-        run: dotnet publish RecipesApi -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish RecipesApi -c Release -o ${{env.DOTNET_ROOT}}/myapp/RecipesApi
 
       - name: install ef core tool
         run: dotnet tool install -g dotnet-ef --version 8.0.1
 
       - name: generate migration bundle
         run: dotnet ef migrations bundle --runtime linux-x64 -p RecipesApi/RecipesApi.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrate
-
-      - name: remove app files
-        run: rm -r ./RecipesApi
-
-      - name: remove test files
-        run: rm -r ./RecipesApiUnitTests
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -80,4 +72,4 @@ jobs:
         with:
           app-name: "recipes-api-v1"
           slot-name: "Production"
-          package: .
+          package: "./RecipesApi"
