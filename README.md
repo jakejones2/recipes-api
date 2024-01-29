@@ -1,5 +1,6 @@
 Just figuring out basic APIs with ASP.NET Core!
 Mostly proof of concept - endpoints lack proper testing and error handling.
+Try it out at https://recipes-api-v1.azurewebsites.net
 
 ## To do
 
@@ -10,6 +11,8 @@ Mostly proof of concept - endpoints lack proper testing and error handling.
 - Deploy on Azure
 - Refactor names, e.g. RecipeIngredients vs RecipeIngredient
 - Move some controller fetching logic into repository classes?
+- Change workflow deploy to this repository rather than the subrepo, then include tests in CI/CD
+- Set up Azure vault/dotnet secret storage for connection strings
 
 ## Notes
 
