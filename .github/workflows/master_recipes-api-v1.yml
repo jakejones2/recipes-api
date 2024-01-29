@@ -30,7 +30,7 @@ jobs:
         run: dotnet build RecipesApi --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish RecipesApi -c Release -o ${{env.DOTNET_ROOT}}/myapp/RecipesApi
+        run: dotnet publish RecipesApi -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: install ef core tool
         run: dotnet tool install -g dotnet-ef --version 8.0.1
@@ -72,4 +72,4 @@ jobs:
         with:
           app-name: "recipes-api-v1"
           slot-name: "Production"
-          package: "./RecipesApi"
+          package: .
