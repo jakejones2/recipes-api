@@ -1,5 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace RecipesApi.Models;
 
+[Index(nameof(Name), IsUnique = true)]
 public class ChefBase
 {
   public string? Name { get; set; }

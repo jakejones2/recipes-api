@@ -55,11 +55,18 @@ public class ChefController : ControllerBase
   [HttpPost]
   public async Task<ActionResult<Chef>> PostChef(ChefBase chefBase)
   {
-    var chef = new Chef { Name = chefBase.Name };
-    _repository.Chef.Create(chef);
-    await _repository.SaveAsync();
-
-    return CreatedAtAction(nameof(GetChefs), new { id = chef.Id }, chef);
+    try
+    {
+      var chef = new Chef { Name = chefBase.Name };
+      _repository.Chef.Create(chef);
+      await _repository.SaveAsync();
+      return CreatedAtAction(nameof(GetChefs), new { id = chef.Id }, chef);
+    }
+    catch (DbUpdateException ex)
+    {
+      Console.WriteLine($"We caught an error! See it here: {ex?.InnerException?.Message}");
+      return BadRequest("This chef already exists!");
+    }
   }
 
   // POST: api/chefs/5/recipe
