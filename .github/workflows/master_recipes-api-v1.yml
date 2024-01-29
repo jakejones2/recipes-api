@@ -40,12 +40,6 @@ jobs:
       - name: generate migration bundle
         run: dotnet ef migrations bundle --runtime linux-x64 -p RecipesApi/RecipesApi.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrate
 
-      - name: remove app files
-        run: rm -r ./RecipesApi
-
-      - name: remove test files
-        run: rm -r ./RecipesApiUnitTests
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
