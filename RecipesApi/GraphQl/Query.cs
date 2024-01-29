@@ -3,7 +3,7 @@ using RecipesApi.Controllers;
 using RecipesApi.Models;
 using RecipesApi.Repository;
 
-namespace RecipesApi.Queries;
+namespace RecipesApi.GraphQL;
 
 public class Query
 {
@@ -12,4 +12,6 @@ public class Query
     var chefs = await repositoryWrapper.Chef.GetAllChefsAsync();
     return chefs;
   }
+
+
 }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using RecipesApi.Models;
-using RecipesApi.Queries;
+using RecipesApi.GraphQL;
 using RecipesApi.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +14,10 @@ builder.Services.AddTransient<IRepositoryWrapper, RepositoryWrapper>();
 builder.Services
     .AddGraphQLServer()
     .RegisterService<IRepositoryWrapper>()
-    .AddQueryType<Query>();
+    .AddQueryType<Query>()
+    .AddMutationType<Mutation>()
+    //.AddDefaultTransactionScopeHandler()  // this doesn't work in SQLite?
+    .AddMutationConventions(applyToAllMutations: true);
 
 builder.Services.AddControllers();
 
