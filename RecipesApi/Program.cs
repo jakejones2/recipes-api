@@ -7,7 +7,7 @@ using RecipesApi.Repository;
 var builder = WebApplication.CreateBuilder(args);
 //var connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING") ?? "Data Source=Recipes.db";
 
-builder.Services.AddPooledDbContextFactory<RecipesContext>(o => o.UseSqlServer(Environment.GetEnvironmentVariable("AZURE_POSTGRESQL_CONNECTIONSTRING")));
+builder.Services.AddPooledDbContextFactory<RecipesContext>(o => o.UseNpgsql(Environment.GetEnvironmentVariable("AZURE_POSTGRESQL_CONNECTIONSTRING")));
 
 builder.Services.AddTransient<IRepositoryWrapper, RepositoryWrapper>();
 
