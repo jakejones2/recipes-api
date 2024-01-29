@@ -21,8 +21,12 @@ builder.Services
 
 builder.Services.AddControllers();
 
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Logging.AddAzureWebAppDiagnostics();
 
 var app = builder.Build();
 
