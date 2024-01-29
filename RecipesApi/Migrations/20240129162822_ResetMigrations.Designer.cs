@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RecipesApi.Models;
 
 #nullable disable
@@ -10,22 +11,26 @@ using RecipesApi.Models;
 namespace RecipesApi.Migrations
 {
     [DbContext(typeof(RecipesContext))]
-    [Migration("20240128181549_SeedAllAttemptLongId")]
-    partial class SeedAllAttemptLongId
+    [Migration("20240129162822_ResetMigrations")]
+    partial class ResetMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("IngredientRecipe", b =>
                 {
                     b.Property<long>("IngredientsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.Property<long>("RecipesId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.HasKey("IngredientsId", "RecipesId");
 
@@ -38,16 +43,18 @@ namespace RecipesApi.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<long>("IngredientId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<long>("RecipeId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -61,428 +68,498 @@ namespace RecipesApi.Migrations
                         new
                         {
                             Id = 1L,
-                            IngredientId = 20L,
-                            Quantity = 2,
-                            RecipeId = 1L
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            IngredientId = 23L,
-                            Quantity = 18,
-                            RecipeId = 1L
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            IngredientId = 7L,
+                            IngredientId = 15L,
                             Quantity = 11,
                             RecipeId = 1L
                         },
                         new
                         {
-                            Id = 4L,
-                            IngredientId = 16L,
-                            Quantity = 17,
+                            Id = 2L,
+                            IngredientId = 18L,
+                            Quantity = 16,
                             RecipeId = 1L
                         },
                         new
                         {
-                            Id = 5L,
-                            IngredientId = 3L,
+                            Id = 3L,
+                            IngredientId = 8L,
+                            Quantity = 13,
+                            RecipeId = 1L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            IngredientId = 11L,
                             Quantity = 7,
                             RecipeId = 1L
                         },
                         new
                         {
+                            Id = 5L,
+                            IngredientId = 21L,
+                            Quantity = 13,
+                            RecipeId = 1L
+                        },
+                        new
+                        {
                             Id = 6L,
-                            IngredientId = 4L,
-                            Quantity = 17,
+                            IngredientId = 16L,
+                            Quantity = 7,
                             RecipeId = 1L
                         },
                         new
                         {
                             Id = 7L,
-                            IngredientId = 19L,
-                            Quantity = 15,
+                            IngredientId = 10L,
+                            Quantity = 18,
                             RecipeId = 1L
                         },
                         new
                         {
                             Id = 8L,
-                            IngredientId = 13L,
-                            Quantity = 1,
+                            IngredientId = 24L,
+                            Quantity = 14,
                             RecipeId = 1L
                         },
                         new
                         {
                             Id = 9L,
-                            IngredientId = 12L,
-                            Quantity = 10,
-                            RecipeId = 1L
-                        },
-                        new
-                        {
-                            Id = 10L,
-                            IngredientId = 6L,
+                            IngredientId = 16L,
                             Quantity = 4,
                             RecipeId = 2L
                         },
                         new
                         {
+                            Id = 10L,
+                            IngredientId = 7L,
+                            Quantity = 1,
+                            RecipeId = 2L
+                        },
+                        new
+                        {
                             Id = 11L,
-                            IngredientId = 4L,
+                            IngredientId = 14L,
                             Quantity = 11,
                             RecipeId = 2L
                         },
                         new
                         {
                             Id = 12L,
-                            IngredientId = 17L,
-                            Quantity = 17,
+                            IngredientId = 1L,
+                            Quantity = 12,
                             RecipeId = 2L
                         },
                         new
                         {
                             Id = 13L,
-                            IngredientId = 18L,
+                            IngredientId = 3L,
                             Quantity = 19,
                             RecipeId = 2L
                         },
                         new
                         {
                             Id = 14L,
-                            IngredientId = 3L,
-                            Quantity = 17,
+                            IngredientId = 22L,
+                            Quantity = 6,
                             RecipeId = 2L
                         },
                         new
                         {
                             Id = 15L,
-                            IngredientId = 1L,
-                            Quantity = 17,
-                            RecipeId = 2L
+                            IngredientId = 11L,
+                            Quantity = 8,
+                            RecipeId = 3L
                         },
                         new
                         {
                             Id = 16L,
-                            IngredientId = 17L,
-                            Quantity = 10,
+                            IngredientId = 15L,
+                            Quantity = 4,
                             RecipeId = 3L
                         },
                         new
                         {
                             Id = 17L,
-                            IngredientId = 12L,
-                            Quantity = 18,
+                            IngredientId = 1L,
+                            Quantity = 4,
                             RecipeId = 3L
                         },
                         new
                         {
                             Id = 18L,
-                            IngredientId = 22L,
-                            Quantity = 15,
+                            IngredientId = 18L,
+                            Quantity = 16,
                             RecipeId = 3L
                         },
                         new
                         {
                             Id = 19L,
-                            IngredientId = 6L,
-                            Quantity = 5,
-                            RecipeId = 3L
-                        },
-                        new
-                        {
-                            Id = 20L,
-                            IngredientId = 13L,
+                            IngredientId = 17L,
                             Quantity = 19,
                             RecipeId = 3L
                         },
                         new
                         {
+                            Id = 20L,
+                            IngredientId = 9L,
+                            Quantity = 17,
+                            RecipeId = 3L
+                        },
+                        new
+                        {
                             Id = 21L,
-                            IngredientId = 16L,
-                            Quantity = 9,
-                            RecipeId = 4L
+                            IngredientId = 21L,
+                            Quantity = 10,
+                            RecipeId = 3L
                         },
                         new
                         {
                             Id = 22L,
-                            IngredientId = 20L,
-                            Quantity = 8,
+                            IngredientId = 16L,
+                            Quantity = 19,
                             RecipeId = 4L
                         },
                         new
                         {
                             Id = 23L,
-                            IngredientId = 2L,
-                            Quantity = 7,
+                            IngredientId = 19L,
+                            Quantity = 11,
                             RecipeId = 4L
                         },
                         new
                         {
                             Id = 24L,
-                            IngredientId = 11L,
-                            Quantity = 13,
+                            IngredientId = 17L,
+                            Quantity = 19,
                             RecipeId = 4L
                         },
                         new
                         {
                             Id = 25L,
-                            IngredientId = 25L,
+                            IngredientId = 11L,
                             Quantity = 3,
                             RecipeId = 4L
                         },
                         new
                         {
                             Id = 26L,
-                            IngredientId = 7L,
-                            Quantity = 3,
+                            IngredientId = 23L,
+                            Quantity = 1,
                             RecipeId = 4L
                         },
                         new
                         {
                             Id = 27L,
                             IngredientId = 8L,
-                            Quantity = 5,
+                            Quantity = 7,
                             RecipeId = 4L
                         },
                         new
                         {
                             Id = 28L,
-                            IngredientId = 12L,
-                            Quantity = 10,
+                            IngredientId = 24L,
+                            Quantity = 8,
                             RecipeId = 4L
                         },
                         new
                         {
                             Id = 29L,
-                            IngredientId = 5L,
-                            Quantity = 5,
-                            RecipeId = 5L
+                            IngredientId = 3L,
+                            Quantity = 10,
+                            RecipeId = 4L
                         },
                         new
                         {
                             Id = 30L,
-                            IngredientId = 18L,
-                            Quantity = 17,
-                            RecipeId = 5L
+                            IngredientId = 7L,
+                            Quantity = 4,
+                            RecipeId = 4L
                         },
                         new
                         {
                             Id = 31L,
-                            IngredientId = 4L,
+                            IngredientId = 15L,
+                            Quantity = 6,
+                            RecipeId = 4L
+                        },
+                        new
+                        {
+                            Id = 32L,
+                            IngredientId = 20L,
+                            Quantity = 16,
+                            RecipeId = 5L
+                        },
+                        new
+                        {
+                            Id = 33L,
+                            IngredientId = 3L,
                             Quantity = 19,
                             RecipeId = 5L
                         },
                         new
                         {
-                            Id = 32L,
-                            IngredientId = 18L,
-                            Quantity = 19,
-                            RecipeId = 6L
-                        },
-                        new
-                        {
-                            Id = 33L,
-                            IngredientId = 17L,
-                            Quantity = 18,
-                            RecipeId = 6L
-                        },
-                        new
-                        {
                             Id = 34L,
-                            IngredientId = 22L,
-                            Quantity = 9,
-                            RecipeId = 6L
+                            IngredientId = 1L,
+                            Quantity = 18,
+                            RecipeId = 5L
                         },
                         new
                         {
                             Id = 35L,
-                            IngredientId = 22L,
-                            Quantity = 13,
-                            RecipeId = 7L
+                            IngredientId = 19L,
+                            Quantity = 6,
+                            RecipeId = 5L
                         },
                         new
                         {
                             Id = 36L,
-                            IngredientId = 25L,
+                            IngredientId = 12L,
+                            Quantity = 6,
+                            RecipeId = 6L
+                        },
+                        new
+                        {
+                            Id = 37L,
+                            IngredientId = 22L,
+                            Quantity = 13,
+                            RecipeId = 6L
+                        },
+                        new
+                        {
+                            Id = 38L,
+                            IngredientId = 13L,
+                            Quantity = 8,
+                            RecipeId = 6L
+                        },
+                        new
+                        {
+                            Id = 39L,
+                            IngredientId = 23L,
+                            Quantity = 10,
+                            RecipeId = 6L
+                        },
+                        new
+                        {
+                            Id = 40L,
+                            IngredientId = 2L,
+                            Quantity = 11,
+                            RecipeId = 6L
+                        },
+                        new
+                        {
+                            Id = 41L,
+                            IngredientId = 8L,
+                            Quantity = 2,
+                            RecipeId = 6L
+                        },
+                        new
+                        {
+                            Id = 42L,
+                            IngredientId = 24L,
+                            Quantity = 3,
+                            RecipeId = 6L
+                        },
+                        new
+                        {
+                            Id = 43L,
+                            IngredientId = 10L,
+                            Quantity = 11,
+                            RecipeId = 6L
+                        },
+                        new
+                        {
+                            Id = 44L,
+                            IngredientId = 19L,
+                            Quantity = 11,
+                            RecipeId = 6L
+                        },
+                        new
+                        {
+                            Id = 45L,
+                            IngredientId = 15L,
+                            Quantity = 18,
+                            RecipeId = 7L
+                        },
+                        new
+                        {
+                            Id = 46L,
+                            IngredientId = 1L,
+                            Quantity = 5,
+                            RecipeId = 7L
+                        },
+                        new
+                        {
+                            Id = 47L,
+                            IngredientId = 8L,
+                            Quantity = 18,
+                            RecipeId = 7L
+                        },
+                        new
+                        {
+                            Id = 48L,
+                            IngredientId = 23L,
+                            Quantity = 1,
+                            RecipeId = 7L
+                        },
+                        new
+                        {
+                            Id = 49L,
+                            IngredientId = 19L,
+                            Quantity = 16,
+                            RecipeId = 7L
+                        },
+                        new
+                        {
+                            Id = 50L,
+                            IngredientId = 3L,
                             Quantity = 12,
                             RecipeId = 7L
                         },
                         new
                         {
-                            Id = 37L,
-                            IngredientId = 2L,
-                            Quantity = 11,
-                            RecipeId = 7L
-                        },
-                        new
-                        {
-                            Id = 38L,
-                            IngredientId = 1L,
-                            Quantity = 10,
-                            RecipeId = 7L
-                        },
-                        new
-                        {
-                            Id = 39L,
-                            IngredientId = 14L,
-                            Quantity = 4,
-                            RecipeId = 7L
-                        },
-                        new
-                        {
-                            Id = 40L,
-                            IngredientId = 8L,
-                            Quantity = 5,
-                            RecipeId = 7L
-                        },
-                        new
-                        {
-                            Id = 41L,
-                            IngredientId = 11L,
-                            Quantity = 19,
-                            RecipeId = 7L
-                        },
-                        new
-                        {
-                            Id = 42L,
-                            IngredientId = 3L,
-                            Quantity = 18,
-                            RecipeId = 7L
-                        },
-                        new
-                        {
-                            Id = 43L,
-                            IngredientId = 13L,
-                            Quantity = 13,
-                            RecipeId = 8L
-                        },
-                        new
-                        {
-                            Id = 44L,
-                            IngredientId = 21L,
-                            Quantity = 4,
-                            RecipeId = 8L
-                        },
-                        new
-                        {
-                            Id = 45L,
-                            IngredientId = 3L,
-                            Quantity = 11,
-                            RecipeId = 8L
-                        },
-                        new
-                        {
-                            Id = 46L,
-                            IngredientId = 12L,
-                            Quantity = 7,
-                            RecipeId = 8L
-                        },
-                        new
-                        {
-                            Id = 47L,
-                            IngredientId = 5L,
-                            Quantity = 10,
-                            RecipeId = 8L
-                        },
-                        new
-                        {
-                            Id = 48L,
-                            IngredientId = 19L,
-                            Quantity = 1,
-                            RecipeId = 8L
-                        },
-                        new
-                        {
-                            Id = 49L,
-                            IngredientId = 3L,
-                            Quantity = 2,
-                            RecipeId = 9L
-                        },
-                        new
-                        {
-                            Id = 50L,
-                            IngredientId = 5L,
-                            Quantity = 16,
-                            RecipeId = 9L
-                        },
-                        new
-                        {
                             Id = 51L,
-                            IngredientId = 21L,
-                            Quantity = 17,
-                            RecipeId = 9L
+                            IngredientId = 10L,
+                            Quantity = 6,
+                            RecipeId = 7L
                         },
                         new
                         {
                             Id = 52L,
-                            IngredientId = 11L,
-                            Quantity = 13,
-                            RecipeId = 10L
+                            IngredientId = 7L,
+                            Quantity = 2,
+                            RecipeId = 8L
                         },
                         new
                         {
                             Id = 53L,
-                            IngredientId = 10L,
+                            IngredientId = 13L,
+                            Quantity = 8,
+                            RecipeId = 8L
+                        },
+                        new
+                        {
+                            Id = 54L,
+                            IngredientId = 11L,
+                            Quantity = 13,
+                            RecipeId = 8L
+                        },
+                        new
+                        {
+                            Id = 55L,
+                            IngredientId = 21L,
+                            Quantity = 18,
+                            RecipeId = 8L
+                        },
+                        new
+                        {
+                            Id = 56L,
+                            IngredientId = 3L,
+                            Quantity = 11,
+                            RecipeId = 9L
+                        },
+                        new
+                        {
+                            Id = 57L,
+                            IngredientId = 11L,
+                            Quantity = 5,
+                            RecipeId = 9L
+                        },
+                        new
+                        {
+                            Id = 58L,
+                            IngredientId = 19L,
+                            Quantity = 9,
+                            RecipeId = 9L
+                        },
+                        new
+                        {
+                            Id = 59L,
+                            IngredientId = 14L,
+                            Quantity = 5,
+                            RecipeId = 9L
+                        },
+                        new
+                        {
+                            Id = 60L,
+                            IngredientId = 4L,
+                            Quantity = 14,
+                            RecipeId = 9L
+                        },
+                        new
+                        {
+                            Id = 61L,
+                            IngredientId = 9L,
+                            Quantity = 6,
+                            RecipeId = 9L
+                        },
+                        new
+                        {
+                            Id = 62L,
+                            IngredientId = 2L,
+                            Quantity = 12,
+                            RecipeId = 9L
+                        },
+                        new
+                        {
+                            Id = 63L,
+                            IngredientId = 8L,
+                            Quantity = 8,
+                            RecipeId = 9L
+                        },
+                        new
+                        {
+                            Id = 64L,
+                            IngredientId = 1L,
+                            Quantity = 15,
+                            RecipeId = 9L
+                        },
+                        new
+                        {
+                            Id = 65L,
+                            IngredientId = 22L,
+                            Quantity = 18,
+                            RecipeId = 9L
+                        },
+                        new
+                        {
+                            Id = 66L,
+                            IngredientId = 6L,
                             Quantity = 9,
                             RecipeId = 10L
                         },
                         new
                         {
-                            Id = 54L,
-                            IngredientId = 4L,
-                            Quantity = 6,
+                            Id = 67L,
+                            IngredientId = 9L,
+                            Quantity = 9,
                             RecipeId = 10L
                         },
                         new
                         {
-                            Id = 55L,
-                            IngredientId = 2L,
-                            Quantity = 7,
+                            Id = 68L,
+                            IngredientId = 19L,
+                            Quantity = 17,
                             RecipeId = 10L
                         },
                         new
                         {
-                            Id = 56L,
-                            IngredientId = 8L,
-                            Quantity = 13,
+                            Id = 69L,
+                            IngredientId = 16L,
+                            Quantity = 5,
                             RecipeId = 10L
                         },
                         new
                         {
-                            Id = 57L,
-                            IngredientId = 6L,
-                            Quantity = 2,
-                            RecipeId = 10L
-                        },
-                        new
-                        {
-                            Id = 58L,
+                            Id = 70L,
                             IngredientId = 15L,
-                            Quantity = 11,
+                            Quantity = 4,
                             RecipeId = 10L
                         },
                         new
                         {
-                            Id = 59L,
-                            IngredientId = 21L,
-                            Quantity = 11,
-                            RecipeId = 10L
-                        },
-                        new
-                        {
-                            Id = 60L,
-                            IngredientId = 5L,
-                            Quantity = 2,
-                            RecipeId = 10L
-                        },
-                        new
-                        {
-                            Id = 61L,
-                            IngredientId = 18L,
-                            Quantity = 11,
+                            Id = 71L,
+                            IngredientId = 14L,
+                            Quantity = 12,
                             RecipeId = 10L
                         });
                 });
@@ -491,12 +568,17 @@ namespace RecipesApi.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Chefs");
 
@@ -537,13 +619,15 @@ namespace RecipesApi.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<int>("Stock")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -706,19 +790,21 @@ namespace RecipesApi.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<long>("ChefId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsFavourite")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Secret")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
